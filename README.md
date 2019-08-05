@@ -1,2 +1,24 @@
 # Implementation-of-a-Hadoop-file-system-with-an-intricate-analysis-on-fault-tolerance
 HDFS
+
+Apache Hadoop is a collection of open-source software utilities that facilitate using a network of many computers to solve problems involving massive amounts of data and computation. It provides a software frame work  for distributed storage and processing of big data using the MapReduce programming model. Originally designed for computer clusters built from commodity hardware still the common use, it has also found use on clusters of higher-end hardware. All the modules in Hadoop are designed with a fundamental assumption that hardware failures are common occurrences and should be automatically handled by the framework. The core of Apache Hadoop consists of a storage part, known as Hadoop Distributed File System (HDFS), and a processing part which is a MapReduce programming model.  Hadoop splits files into large blocks and distributes them across nodes in a cluster. It then transfers packaged code into nodes to process the data in parallel. This approach takes advantage of data locality, where nodes manipulate the data they have access to. This allows the dataset to be processed faster and more efficiently than it would be in a more conventional supercomputer architecture that relies on a parallel file system where computation and data are distributed via high-speed networking.
+II.	HDFS
+The HDFS is a distributed, scalable, and portable file system written in Java for the Hadoop framework. Some consider it to instead be a data store due to its lack of POSIX compliance, but it does provide shell commands and Java application programming interface (API) methods that are similar to other file systems. A Hadoop is divided into two HDFS and MapReduce. HDFS is used for storing the data and MapReduce is used for the Processing the Data. HDFS has five services as follows: 
+
+1. Name Node 
+2. Secondary Name Node 
+3. Job tracker 
+4. Data Node 
+5. Task Tracker 
+
+Top there are Master Services/Demons/Nodes and bottom two are Slave Services. Master Services can communicate with each other and in the same way Slave services can communicate with each other. Name Node is a master node and Data node is its corresponding Slave node and can talk with each other. 
+
+1.)NameNode: HDFS consists of only one Name Node we call it as Master Node which can track the files, manage the file system and has the meta-data and the whole data in it. To be particular Name node contains the details of the No. of blocks, Locations at what data node the data is stored and where the replications are stored and other details. As we have only one Name Node we call it as Single Point Failure. It has Direct connect with the client. 
+
+2.)DataNode: A Data Node stores data in it as the blocks. This is also known as the slave node and it stores the actual data into HDFS which is responsible for the client to read and write. These are slave demons. Every Data node sends a Heartbeat message to the Name node every 3 seconds and conveys that it is alive. In this way when Name Node does not receive a heartbeat from a data node for 2 minutes, it will take that data node as 
+dead and starts the process of block replications on some other DataNodes. 
+3.)Secondary NameNode: This is only to take care of the checkpoints of the file system metadata which is in the Name Node. This is also known as checkpoint Node. It is helper Node for the Name Node. 
+4.)Job Tracker: Basically Job Tracker will be useful in the Processing the data. Job Tracker receives the requests for Map Reduce execution from the client. Job tracker talks to the Name node to know about the location of the data like Job Tracker will request the Name Node for the processing the data. Name node in response gives the meta-data to job tracker. 
+5.)Task Tracker: It is the Slave Node for the Job Tracker and it will take the task from the Job Tracker. And also it receives code from the Job Tracker. Task Tracker will take the code and apply on the file. The process of applying that code on the file is known as mapper. 
+HDFS has basically connection made through remote procedure calls using TCP/IP connection with the DataNodes and NameNode. HDFS stores large files (typically in the range of gigabytes to terabytes. across multiple machines. It achieves reliability by replicating the data across multiple hosts, and hence theoretically does not require redundant array of independent disks (RAID) storage on hosts (but to increase input-output (I/O) performance some RAID configurations are still useful). With the default replication value, 3, data is stored on three nodes: two on the same rack, and one on a different rack. Data nodes can talk to each other to rebalance data, to move copies around, and to keep the replication of data high.
+
